@@ -24,7 +24,7 @@ import org.apache.commons.codec.digest.DigestUtils
  */
  
  object Tool:
-   given ExecutionContext = ExecutionContext.fromExecutor(Executors.newVirtualThreadPerTaskExecutor())
+   given ExecutionContext = ExecutionContext.fromExecutor(Executors.newCachedThreadPool())
    def now = System.currentTimeMillis()
 
    def withTmpDirectory[R]()(f: File => R) =
