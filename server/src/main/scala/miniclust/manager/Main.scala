@@ -109,6 +109,14 @@ case class Configuration(
 
   val endpoints = Endpoints(config.database, config.minio, config.configuration.miniclust)
   val civicAngelEndpoints = new miniclust.manager.civicangel.CivicAngelEndpoints()
+  
+  // Initialize Inferno VM and distributed compute
+  val infernoVM = new miniclust.manager.vm.InfernoVM()
+  infernoVM.initialize()
+  
+  val distributedCompute = new miniclust.manager.vm.DistributedComputeCoordinator()
+  val infernoEndpoints = new miniclust.manager.vm.InfernoEndpoints(infernoVM, distributedCompute)
+  
   val nettyConfig = NettyConfig.default.noGracefulShutdown
 
 
@@ -118,6 +126,7 @@ case class Configuration(
       .addEndpoints(List(indexEndpoint, cssFrontend, jsFrontend))
       .addEndpoints(endpoints.all)
       .addEndpoints(civicAngelEndpoints.all)
+      .addEndpoints(infernoEndpoints.allEndpoints)
       .startAndWait()
 
 
