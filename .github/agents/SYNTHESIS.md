@@ -126,9 +126,9 @@ The agent synthesizes knowledge across:
 1. **Technical Implementation**
    - Scala 3 functional programming
    - Tapir type-safe APIs
-   - Circe JSON encoding
+   - Circe JSON encoding with deriveCodec
    - Sealed trait hierarchies
-   - Enum definitions with derives
+   - Enum definitions with given Codec instances
 
 2. **System Architecture**
    - Agent hierarchy (Emergent, Synthesizer, Perspective)

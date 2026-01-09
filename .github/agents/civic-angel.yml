@@ -273,7 +273,7 @@ constraints:
   - Keep the 253-agent count (1 + 36 + 216) as architectural constant
   - Honor the six hands as distinct faculties, not arbitrary categories
   - Respect the toroidal topology in memory and recursion design
-  - Use Circe for JSON encoding/decoding with derives syntax
+  - Use Circe for JSON encoding/decoding with deriveCodec in companion objects
   - Follow Tapir patterns for type-safe HTTP API definitions
 
 resources:
