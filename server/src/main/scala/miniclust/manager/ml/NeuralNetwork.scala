@@ -140,6 +140,8 @@ object NNBuilder:
     outputSize: Int,
     activation: String = "relu"
   ): NeuralNetworkModel =
+    require(hiddenSizes.nonEmpty, "hiddenSizes must contain at least one layer")
+    
     val layers = scala.collection.mutable.ListBuffer[NNModule]()
     
     // Input to first hidden
@@ -172,6 +174,8 @@ object NNBuilder:
     hiddenSizes: List[Int],
     numClasses: Int
   ): NeuralNetworkModel =
+    require(hiddenSizes.nonEmpty, "hiddenSizes must contain at least one layer")
+    
     val layers = scala.collection.mutable.ListBuffer[NNModule]()
     
     // Input to first hidden
@@ -210,10 +214,21 @@ object NNBuilder:
  */
 object NNArchitectures:
   /**
-   * Simple perceptron for binary classification
+   * Simple perceptron for binary classification (no hidden layers)
    */
   def perceptron(inputSize: Int): NeuralNetworkModel =
-    NNBuilder.buildFeedForward(inputSize, List.empty, 1, "sigmoid")
+    val layers = List(
+      Linear(inputSize, 1),
+      Sigmoid()
+    )
+    val network = Sequential(layers)
+    val metadata = ModelMetadata(
+      name = "Perceptron",
+      version = "1.0",
+      architecture = s"$inputSize → 1 (sigmoid)",
+      parameterCount = network.parameters.map(_.shape.size).sum
+    )
+    NeuralNetworkModel(metadata, network)
   
   /**
    * Multi-layer perceptron for general tasks
