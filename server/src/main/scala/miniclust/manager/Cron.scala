@@ -36,7 +36,7 @@ object Cron:
       t
 
   val scheduler = Executors.newSingleThreadScheduledExecutor(daemonThreadFactory)
-  given ExecutionContext = ExecutionContext.fromExecutor(Executors.newVirtualThreadPerTaskExecutor())
+  given ExecutionContext = ExecutionContext.fromExecutor(Executors.newCachedThreadPool(daemonThreadFactory))
 
 
   object StopTask:

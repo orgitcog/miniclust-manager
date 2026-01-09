@@ -108,6 +108,7 @@ case class Configuration(
   val cssFrontend = staticFilesGetServerEndpoint[Identity]("css")(s"$staticPath/css/") //, options = FilesOptions.default.copy(defaultFile = Some(List("index.html"))))
 
   val endpoints = Endpoints(config.database, config.minio, config.configuration.miniclust)
+  val civicAngelEndpoints = new miniclust.manager.civicangel.CivicAngelEndpoints()
   val nettyConfig = NettyConfig.default.noGracefulShutdown
 
 
@@ -116,6 +117,7 @@ case class Configuration(
       .port(config.port)
       .addEndpoints(List(indexEndpoint, cssFrontend, jsFrontend))
       .addEndpoints(endpoints.all)
+      .addEndpoints(civicAngelEndpoints.all)
       .startAndWait()
 
 
