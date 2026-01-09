@@ -117,7 +117,7 @@ object TaskStatus:
 case class TaskResult(
   taskId: String,
   success: Boolean,
-  result: Option[Tensor],
+  resultData: Option[List[Float]],  // Changed from Tensor to List[Float]
   error: Option[String] = None,
   executionTimeMs: Long
 ) derives Codec
@@ -236,7 +236,7 @@ class DistributedComputeCoordinator:
           val taskResult = TaskResult(
             taskId = taskId,
             success = true,
-            result = result,
+            resultData = result.map(_.data.toList),  // Convert tensor to list
             executionTimeMs = executionTime
           )
           
